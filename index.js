@@ -56,7 +56,7 @@ app.post('/api/rate/one', async (req, res) => {
     let domain = req.body.domain.replace('https://', '');
     domain = domain.replace('www.', '');
 
-    res.status(200).send({ratio: await valuer.value(domain)});
+    res.status(200).send({ratio: await valuer.value(domain.toLowerCase())});
   }catch (e){
     res.status(500).send({"error": e});
   }
@@ -79,7 +79,7 @@ app.post('/api/rate/file',  upload, async (req, res) => {
         const outJSON = {};
 
         await Promise.all(domainsArray.map(async (domain) => {
-          const value = await valuer.value(domain);
+          const value = await valuer.value(domain.toLowerCase());
           outJSON[domain] = value
         }))
 
